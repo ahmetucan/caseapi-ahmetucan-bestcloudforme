@@ -33,7 +33,7 @@ pipeline{
         stage ("Push dockerhub"){
             steps{
                 withCredentials([string(credentialsId: 'dockerpassid', variable: 'password')]) {
-                    sh "docker login -u ahmetucan -p 1598753Ah!"
+                    sh "docker login -u ********* -p **********"
                 }
         
                 sh "docker push ahmetucan/caseapi:latest"
