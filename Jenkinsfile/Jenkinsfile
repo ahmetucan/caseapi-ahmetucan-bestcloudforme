@@ -1,0 +1,50 @@
+pipeline{
+   agent any
+    stages{
+        stage("Git SCM"){
+            steps{
+                git branch: 'main',
+                credentialsId: 'GitHub_credentials',
+                url: 'https://github.com/ahmetucan/caseapi-ahmetucan-bestcloudforme.git'
+            }
+        }
+          stage("Build"){
+            agent {
+                docker {
+                    image 'python:3.6-alpine'
+                }
+            }
+            steps{
+                sh "python -m compileall ."
+            }
+          }    
+        stage("Test"){
+            
+            steps{
+                echo "test"
+            }
+    
+        }
+        stage("Build Docker Image"){
+            steps{
+                sh "docker build -t ahmetucan/caseapi:latest ."
+            }
+        }
+        stage ("Push dockerhub"){
+            steps{
+                withCredentials([string(credentialsId: 'dockerpassid', variable: 'password')]) {
+                    sh "docker login -u ahmetucan -p 1598753Ah!"
+                }
+        
+                sh "docker push ahmetucan/caseapi:latest"
+            }
+        }
+        
+        stage("Run Container"){
+            steps{
+                sh "docker run -v C:/WINDOWS/system32/config/systemprofile/AppData/Local/Jenkins/.jenkins/workspace/ -d -p 8080:8080 -p 50000:50000 --name bestcloudforme ahmetucan/caseapi:latest"
+            }
+        }
+    }
+
+}
