@@ -36,5 +36,6 @@
 
     Dockercontainer run -p 80:5000 ahmetucan/caseapi
 
- 
+# Push an Image:
+    Docker push ahmetucan/caseapi
  
